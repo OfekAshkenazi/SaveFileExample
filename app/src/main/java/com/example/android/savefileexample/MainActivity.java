@@ -1,9 +1,11 @@
 package com.example.android.savefileexample;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -24,12 +26,24 @@ public class MainActivity extends AppCompatActivity {
     Button addBtn;
     String[] files;
     ArrayList<String> notes=new ArrayList<>();
+    ArrayAdapter adapter;
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         files=getAllFiles();
         initializeNotes();
+        listView= (ListView) findViewById(R.id.listView);
+        addBtn= (Button) findViewById(R.id.addBtn);
+        adapter=new ArrayAdapter(this,android.R.layout.simple_list_item_1,notes);
+        listView.setAdapter(adapter);
+        addBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(view.getContext(),AddNoteActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void initializeNotes() {
@@ -82,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        notes.add(sb.toString());
     }
     private String[] getAllFiles(){
         return fileList();
