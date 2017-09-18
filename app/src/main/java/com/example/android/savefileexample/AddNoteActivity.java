@@ -1,8 +1,8 @@
 package com.example.android.savefileexample;
 
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,13 +31,14 @@ public class AddNoteActivity extends AppCompatActivity {
                 if (contentET.getText().toString().equals(""))return;
                 if (saveToFile(contentET.getText().toString())){
                     Toast.makeText(AddNoteActivity.this, "Note Added", Toast.LENGTH_SHORT).show();
-                    preferences.edit().putInt("index",++currentIndex);
+                    preferences.edit().putInt("index",++currentIndex).commit();
                     try {
                         Thread.sleep(100);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                     finish();
+                    return;
                 }
                 Toast.makeText(AddNoteActivity.this, "there was a problem", Toast.LENGTH_SHORT).show();
             }
